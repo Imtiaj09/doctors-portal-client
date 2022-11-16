@@ -1,5 +1,6 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
 import SocialLogin from "../Shared/SocialLogin/SocialLogin";
@@ -9,11 +10,14 @@ const Login = () => {
     register,
     formState: { errors },
     handleSubmit,
+    watch,
   } = useForm();
-  const { signIn } = useContext(AuthContext);
+  const { signIn, resetPassword } = useContext(AuthContext);
   const [loginError, setLoginError] = useState();
+
   const location = useLocation();
   const navigate = useNavigate();
+  console.log(watch("email"));
 
   const form = location.state?.form?.pathname || "/";
 
@@ -32,6 +36,18 @@ const Login = () => {
       });
   };
 
+  const handleResetPassword = () => {
+    resetPassword(watch("email"))
+      .then(() => {
+        toast((t) => (
+          <span>
+            Password reset sent. <b>Please check your email.</b>
+          </span>
+        ));
+      })
+      .catch((err) => console.error(err));
+  };
+
   return (
     <div className="h-[800px] flex justify-center items-center">
       <div className="w-96 p-7">
@@ -44,6 +60,7 @@ const Login = () => {
             </label>
             <input
               type="text"
+              name="email"
               {...register("email", { required: "Email Address is required" })}
               className="input input-bordered w-full max-w-xs"
             />
@@ -70,7 +87,9 @@ const Login = () => {
               <p className="text-red-600">{errors.password?.message}</p>
             )}
             <label className="label">
-              <span className="label-text">Forget Password?</span>
+              <span className="label-text">
+                <button onClick={handleResetPassword}>Forget Password?</button>
+              </span>
             </label>
           </div>
           <input
