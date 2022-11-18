@@ -6,9 +6,12 @@ const AllUsers = () => {
   const { data: users = [], refetch } = useQuery({
     queryKey: ["users"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:5000/users");
-      const data = await res.json();
-      return data;
+      return fetch("http://localhost:5000/users", {
+        method: "GET",
+        headers: {
+          authorization: `bearer ${localStorage.getItem("accessToken")}`,
+        },
+      }).then((res) => res.json());
     },
   });
 
@@ -27,6 +30,7 @@ const AllUsers = () => {
         }
       });
   };
+  console.log(users);
 
   return (
     <div>
@@ -43,7 +47,7 @@ const AllUsers = () => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user, i) => (
+            {users?.map((user, i) => (
               <tr key={user._id}>
                 <th>{i + 1}</th>
                 <td>{user.name}</td>
