@@ -8,7 +8,7 @@ const PrivateRoute = ({ children }) => {
   const location = useLocation();
   if (loading) {
     return (
-      <div className="flex justify-center">
+      <div className="flex justify-center items-center">
         <TailSpin
           height="80"
           width="80"
