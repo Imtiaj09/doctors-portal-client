@@ -5,7 +5,7 @@ import { AuthContext } from "../../../context/AuthProvider";
 
 const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
   //treatment is appointment options just different name of appointment option with name , slots, _id
-  const { name: treatmentName, slots } = treatment;
+  const { name: treatmentName, slots, price } = treatment;
   const date = format(selectedDate, "PP");
   const { user } = useContext(AuthContext);
 
@@ -24,6 +24,7 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
       slot,
       email,
       phone,
+      price,
     };
 
     //TODO: send data to the server
