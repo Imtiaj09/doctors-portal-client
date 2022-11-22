@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import React, { useContext } from "react";
 import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 import { AuthContext } from "../../../context/AuthProvider";
 
 const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
@@ -29,7 +30,7 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
 
     //TODO: send data to the server
     //once the data is save and display success tost
-    fetch("http://localhost:5000/bookings", {
+    fetch("https://doctors-portal-server-pi.vercel.app/bookings", {
       method: "post",
       headers: {
         "content-type": "application/json",
@@ -41,10 +42,21 @@ const BookingModal = ({ treatment, setTreatment, selectedDate, refetch }) => {
         console.log(data);
         if (data.acknowledged) {
           setTreatment(null);
-          toast.success("Booking Confirmed.");
+          Swal.fire({
+            position: "center",
+            icon: "success",
+            title: "Booking Confirmed.",
+            showConfirmButton: false,
+            timer: 1500,
+          });
           refetch();
         } else {
-          toast.error(data.message);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: data.message,
+            footer: '<a href="">Why do I have this issue?</a>',
+          });
         }
       });
   };

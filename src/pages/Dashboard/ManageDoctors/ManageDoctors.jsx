@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
+import Swal from "sweetalert2";
 import ConfirmationModal from "../../Shared/ConfirmationModal/ConfirmationModal";
 import Loading from "../../Shared/Loading/Loading";
 
@@ -19,11 +20,14 @@ const ManageDoctors = () => {
     queryKey: ["doctors"],
     queryFn: async () => {
       try {
-        const res = await fetch("http://localhost:5000/doctors", {
-          headers: {
-            authorization: `bearer ${localStorage.getItem("accessToken")}`,
-          },
-        });
+        const res = await fetch(
+          "https://doctors-portal-server-pi.vercel.app/doctors",
+          {
+            headers: {
+              authorization: `bearer ${localStorage.getItem("accessToken")}`,
+            },
+          }
+        );
         const data = res.json();
         return data;
       } catch (error) {}
@@ -31,7 +35,7 @@ const ManageDoctors = () => {
   });
 
   const handleDeleteDoctor = (doctor) => {
-    fetch(`http://localhost:5000/doctors/${doctor._id}`, {
+    fetch(`https://doctors-portal-server-pi.vercel.app/doctors/${doctor._id}`, {
       method: "DELETE",
       headers: {
         authorization: `bearer ${localStorage.getItem("accessToken")}`,
@@ -40,7 +44,12 @@ const ManageDoctors = () => {
       .then((res) => res.json())
       .then((data) => {
         if (data.deletedCount > 0) {
-          toast.success(`Doctor ${doctor.name} has been removed successfully`);
+          toast.success();
+          Swal.fire(
+            "Deleted!",
+            `Doctor ${doctor.name} has been removed successfully`,
+            "success"
+          );
           refetch();
         }
       });

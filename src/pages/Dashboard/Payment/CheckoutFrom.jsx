@@ -10,10 +10,10 @@ const CheckoutFrom = ({ booking }) => {
 
   const stripe = useStripe();
   const elements = useElements();
-  const { price, email, patient } = booking;
+  const { price, email, patient, _id } = booking;
 
   useEffect(() => {
-    fetch("http://localhost:5000/create-payment-intent", {
+    fetch("https://doctors-portal-server-pi.vercel.app/create-payment-intent", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -65,9 +65,30 @@ const CheckoutFrom = ({ booking }) => {
       return;
     }
     if (paymentIntent.status === "succeeded") {
-      setSuccess("Congrats! Your Payment Completed.");
-      setTransactionId(paymentIntent.id);
+      console.log("card info", card);
       //store payment info in the database
+      const payment = {
+        price,
+        transactionId: paymentIntent.id,
+        email,
+        bookingId: _id,
+      };
+      fetch("https://doctors-portal-server-pi.vercel.app/payments", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          authorization: `bearer ${localStorage.getItem("accessToken")}`,
+        },
+        body: JSON.stringify(payment),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          if (data.insertedId) {
+            setSuccess("Congrats! Your Payment Completed.");
+            setTransactionId(paymentIntent.id);
+          }
+        });
     }
     setProcessing(false);
   };

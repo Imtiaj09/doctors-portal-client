@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import Loading from "../../Shared/Loading/Loading";
 
 const AddDoctor = () => {
@@ -18,7 +18,9 @@ const AddDoctor = () => {
   const { data: specialties, isLoading } = useQuery({
     queryKey: ["specialty"],
     queryFn: async () => {
-      const res = await fetch("http://localhost:5000/appointmentSpecialty");
+      const res = await fetch(
+        "https://doctors-portal-server-pi.vercel.app/appointmentSpecialty"
+      );
       const data = await res.json();
       return data;
     },
@@ -44,7 +46,7 @@ const AddDoctor = () => {
             image,
           };
           //save  doctors information to the database
-          fetch("http://localhost:5000/doctors", {
+          fetch("https://doctors-portal-server-pi.vercel.app/doctors", {
             method: "POST",
             headers: {
               "content-type": "application/json",
@@ -55,7 +57,14 @@ const AddDoctor = () => {
             .then((res) => res.json())
             .then((result) => {
               console.log(result);
-              toast.success(`${data.name} is added successfully`);
+              Swal.fire({
+                position: "center",
+                icon: "success",
+                title: `${data.name} is added successfully`,
+                showConfirmButton: false,
+                timer: 1500,
+              });
+
               navigate("/dashboard/managedoctors");
             });
         }
@@ -96,6 +105,18 @@ const AddDoctor = () => {
           {errors.email && (
             <p className="text-red-600">{errors.email.message}</p>
           )}
+
+          <div className="form-control w-full max-w-xs">
+            <label className="label">
+              <span className="label-text">Photo</span>
+            </label>
+            <input
+              type="file"
+              {...register("image", { required: "Image is required." })}
+              className="w-full max-w-xs"
+            />
+            {errors.img && <p className="text-red-600">{errors.img.message}</p>}
+          </div>
         </div>
         <div className="form-control w-full max-w-xs">
           <label className="label">
@@ -111,17 +132,6 @@ const AddDoctor = () => {
               </option>
             ))}
           </select>
-        </div>
-        <div className="form-control w-full max-w-xs">
-          <label className="label">
-            <span className="label-text">Photo</span>
-          </label>
-          <input
-            type="file"
-            {...register("image", { required: "Image is required." })}
-            className="input input-bordered w-full max-w-xs"
-          />
-          {errors.img && <p className="text-red-600">{errors.img.message}</p>}
         </div>
 
         <input
