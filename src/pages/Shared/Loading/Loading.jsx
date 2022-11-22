@@ -1,17 +1,18 @@
 import React from "react";
-import { ProgressBar } from "react-loader-spinner";
+import { MagnifyingGlass } from "react-loader-spinner";
 
 const Loading = () => {
   return (
-    <div className="flex justify-center items-center">
-      <ProgressBar
+    <div className="h-screen flex justify-center items-center backdrop-blur-[9xl]">
+      <MagnifyingGlass
+        visible={true}
         height="80"
         width="80"
-        ariaLabel="progress-bar-loading"
+        ariaLabel="MagnifyingGlass-loading"
         wrapperStyle={{}}
-        wrapperClass="progress-bar-wrapper"
-        borderColor="0000FF"
-        barColor="#18d2b3"
+        wrapperClass="MagnifyingGlass-wrapper"
+        glassColor="#0FCFEC"
+        color="#e15b64"
       />
     </div>
   );
