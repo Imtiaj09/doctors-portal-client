@@ -11,6 +11,22 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.heroLightPattern {
+  background: url("https://raw.githubusercontent.com/kiron0/github-user-details/main/src/Assets/bg-light.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.7;
+};
+
+.heroDarkPattern {
+  background: url("https://raw.githubusercontent.com/kiron0/github-user-details/main/src/Assets/bg-dark.jpg");
+  opacity: 0.9;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+};
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

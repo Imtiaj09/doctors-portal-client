@@ -2,9 +2,9 @@ import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvider";
-import toast from "react-hot-toast";
 import SocialLogin from "../Shared/SocialLogin/SocialLogin";
 import useToken from "../../hooks/useToken";
+import Swal from "sweetalert2";
 
 const SignUp = () => {
   const {
@@ -30,7 +30,13 @@ const SignUp = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
-        toast.success("User Created Successfully");
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "User Created Successfully.Don't Forgot the email & password.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         const userInfo = {
           displayName: data.name,
         };

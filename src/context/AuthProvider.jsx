@@ -20,6 +20,19 @@ const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  //For dark and light mood - start
+  const [theme, setTheme] = useState(false);
+
+  useEffect(() => {
+    setTheme(JSON.parse(window.localStorage.getItem("theme") || "false"));
+  }, []);
+
+  const handleThemeChange = () => {
+    setTheme(!theme);
+    window.localStorage.setItem("theme", JSON.stringify(!theme));
+  };
+  //end
+
   const createUser = (email, password) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
@@ -65,6 +78,8 @@ const AuthProvider = ({ children }) => {
     logOut,
     user,
     loading,
+    handleThemeChange,
+    theme,
   };
 
   return (

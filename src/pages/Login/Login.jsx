@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { AuthContext } from "../../context/AuthProvider";
 import useToken from "../../hooks/useToken";
 import SocialLogin from "../Shared/SocialLogin/SocialLogin";
@@ -45,11 +45,13 @@ const Login = () => {
   const handleResetPassword = () => {
     resetPassword(watch("email"))
       .then(() => {
-        toast((t) => (
-          <span>
-            Password reset sent. <b>Please check your email.</b>
-          </span>
-        ));
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "Password reset sent.Please check your email.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
       })
       .catch((err) => console.error(err));
   };
@@ -94,7 +96,7 @@ const Login = () => {
             )}
             <label className="label">
               <span className="label-text">
-                <button onClick={handleResetPassword}>Forget Password?</button>
+                <Link onClick={handleResetPassword}>Forget Password?</Link>
               </span>
             </label>
           </div>

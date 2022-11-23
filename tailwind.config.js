@@ -14,6 +14,7 @@ module.exports = {
           "base-100": "#FFFFFF"
         },
       },
+      "dark",
     ],
   },
   theme: {
