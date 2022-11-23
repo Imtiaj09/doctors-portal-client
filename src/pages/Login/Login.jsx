@@ -34,6 +34,13 @@ const Login = () => {
       .then((result) => {
         const user = result.user;
         console.log(user);
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "User login successfully.",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         setLoginUSerEmail(data.email);
       })
       .catch((err) => {

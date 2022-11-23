@@ -18,7 +18,7 @@ function App() {
   return (
     <div
       data-theme={
-        theme ? 'dark' : 'doctortheme'
+        theme ? 'night' : 'doctortheme'
       }
     >
       <div
